@@ -3,12 +3,13 @@ import { Box, Button, Flex, Text, Title } from '@mantine/core';
 import { useAtom, useAtomValue } from 'jotai/react';
 import { atom } from 'jotai/vanilla';
 
+const RESPONSE_DELAY = 1000;
 const delayedPromise = (data: any) =>
   new Promise((resolve, reject) => {
     const timeout = setTimeout(() => {
       clearTimeout(timeout);
       resolve(data);
-    }, 1000);
+    }, RESPONSE_DELAY);
   });
 
 const getRandomNumberBetweenMinAndMax = (min = 1, max = 100) => {
@@ -22,6 +23,14 @@ const makeRandomFetchReq = async () => {
       return delayedPromise(res.json());
     },
   );
+};
+
+const makeRandomFetchReqError = async () => {
+  return new Promise((resolve, reject) => {
+    setTimeout(() => {
+      reject('foo');
+    }, RESPONSE_DELAY);
+  });
 };
 // const asyncAtom = atom<Promise<any>>(Promise.resolve(null));
 const asyncAtom = atom<Promise<any> | null>(null);
@@ -49,26 +58,36 @@ export const Async = () => {
     setShowResult((v) => !v);
   };
 
+  const handleFetchErrorClick = () => {
+    setRequest(makeRandomFetchReqError); // Will suspend until request resolves
+  };
+
   return (
     <Box>
       <Title size="h5">Async</Title>
       <Text mb={10} c="dark.2">
-        Out-of-the-box Suspense support. <i>Timeout: 8000 ms</i>
+        Out-of-the-box Suspense support. <i>Delay: {RESPONSE_DELAY / 1000}s</i>
       </Text>
       {/* User: {userId} */}
       {showResult && <ConditionalAsync />}
       <Text>Request status: {!request ? 'Ready' : '✅ Success'} </Text>
-      <Flex>
-        <Button onClick={handleFetchClick} size="xs" tt="uppercase" mt={5}>
-          Fetch
+      <Flex mt={5} gap={5}>
+        <Button onClick={handleFetchClick} size="xs" tt="uppercase">
+          Fetch Success
         </Button>
 
+        <Button
+          onClick={handleFetchErrorClick}
+          size="xs"
+          tt="uppercase"
+          color="red"
+        >
+          Fetch Error
+        </Button>
         <Button
           onClick={handleShowResultClick}
           size="xs"
           tt="uppercase"
-          mt={5}
-          ml={5}
           color="green"
         >
           Toggle result

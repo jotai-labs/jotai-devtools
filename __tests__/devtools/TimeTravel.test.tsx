@@ -1,8 +1,8 @@
 import React, { useMemo } from 'react';
 import { act, fireEvent, screen, waitFor } from '@testing-library/react';
 import { userEvent } from '@testing-library/user-event';
-import { atom, useAtomValue, useSetAtom } from 'jotai';
-import { DevTools, DevToolsProps } from 'jotai-devtools';
+import { atom, useAtom, useAtomValue, useSetAtom } from 'jotai';
+import { DevTools, type DevToolsProps } from 'jotai-devtools';
 import { customRender } from '../custom-render';
 
 const BasicAtomsWithDevTools = (props: DevToolsProps) => {
@@ -455,6 +455,75 @@ describe('DevTools - TimeTravel', () => {
       expect(
         screen.getAllByTestId(/jotai-devtools-snapshot-[0-9]/),
       ).toHaveLength(3);
+    });
+
+    it('should not add another snapshot history entry when restoring an async atom', async () => {
+      const countAtom = atom(0);
+      countAtom.debugLabel = 'countAtom';
+      const asyncAtom = atom<Promise<number> | null>(null);
+      asyncAtom.debugLabel = 'asyncAtom';
+
+      let resolvePromise: (value: number) => void = () => {};
+      const pendingPromise = new Promise<number>((resolve) => {
+        resolvePromise = resolve;
+      });
+
+      const AsyncAtomsWithDevTools = () => {
+        const [request, setRequest] = useAtom(asyncAtom);
+        const setCount = useSetAtom(countAtom);
+
+        const handleFetchClick = async () => {
+          setRequest(pendingPromise);
+        };
+
+        return (
+          <div>
+            <DevTools isInitialOpen={true} />
+            <span data-testid="request-value">
+              {request ? 'Resolved' : 'Pending'}
+            </span>
+            <button onClick={() => setCount((c) => c + 1)} type="button">
+              Increment
+            </button>
+            <button onClick={handleFetchClick} type="button">
+              Fetch
+            </button>
+          </div>
+        );
+      };
+
+      customRender(
+        <React.Suspense fallback={<div>Loading...</div>}>
+          <AsyncAtomsWithDevTools />
+        </React.Suspense>,
+      );
+
+      fireEvent.click(screen.getByText('Time travel'));
+      fireEvent.click(screen.getByLabelText('Record snapshot history'));
+      fireEvent.click(screen.getByText('Increment'));
+
+      expect(
+        screen.getAllByTestId(/jotai-devtools-snapshot-[0-9]/),
+      ).toHaveLength(1);
+
+      await userEvent.click(screen.getByText('Fetch'));
+
+      resolvePromise(1);
+
+      await waitFor(() =>
+        expect(
+          screen.getAllByTestId(/jotai-devtools-snapshot-[0-9]/),
+        ).toHaveLength(3),
+      );
+
+      expect(
+        screen.getAllByTestId('json-tree-view-container'),
+      ).toMatchSnapshot();
+
+      await userEvent.click(screen.getByTestId('jotai-devtools-snapshot-2'));
+      expect(
+        screen.getAllByTestId('json-tree-view-container'),
+      ).toMatchSnapshot();
     });
   });
 

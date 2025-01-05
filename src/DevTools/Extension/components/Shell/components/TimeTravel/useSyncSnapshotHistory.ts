@@ -24,14 +24,22 @@ const generateShortId = () =>
   Date.now().toString(36).substring(5) +
   Math.random().toString(36).substring(8);
 
-type PromiseWithMeta = Promise<unknown> & {
-  status?: 'pending' | 'fulfilled' | 'rejected';
-  value?: unknown;
-  reason?: unknown;
-};
+const inspectPromise = async (promise: Promise<unknown>) => {
+  const immediatePromise = Promise.resolve();
 
-export const isPromiseWithMeta = (x: unknown): x is PromiseWithMeta =>
-  x instanceof Promise;
+  try {
+    const winner = await Promise.race([promise, immediatePromise]);
+
+    if (winner === undefined) {
+      return { status: 'pending' };
+    }
+
+    const value = await promise;
+    return { status: 'fulfilled', value };
+  } catch (error) {
+    return { status: 'rejected', reason: error };
+  }
+};
 
 export default function useSyncSnapshotHistory() {
   const userStore = useUserStore();
@@ -73,7 +81,7 @@ export default function useSyncSnapshotHistory() {
       });
     };
 
-    const collectValues = () => {
+    const collectValues = async () => {
       const values: AtomsValues = new Map();
       const displayValues: SnapshotHistory['displayValues'] = {};
       const dependents: AtomsDependents = new Map();
@@ -84,26 +92,9 @@ export default function useSyncSnapshotHistory() {
             values.set(atom, atomState.v);
             // if atom is not private, we'll add it to displayValues
             if (!atom.debugPrivate) {
-              if (isPromiseWithMeta(atomState.v)) {
-                if (atomState.v.status === 'pending') {
-                  displayValues[atomToPrintable(atom)] = {
-                    status: 'pending',
-                  };
-                } else if (atomState.v.status === 'rejected') {
-                  displayValues[atomToPrintable(atom)] = {
-                    status: atomState.v.status,
-                    reason: atomState.v.reason,
-                  };
-                } else if (atomState.v.status === 'fulfilled') {
-                  displayValues[atomToPrintable(atom)] = {
-                    status: atomState.v.status,
-                    value: atomState.v.value,
-                  };
-                } else {
-                  displayValues[atomToPrintable(atom)] = {
-                    status: 'pending',
-                  };
-                }
+              if (atomState.v instanceof Promise) {
+                const promiseResult = await inspectPromise(atomState.v);
+                displayValues[atomToPrintable(atom)] = promiseResult;
               } else {
                 displayValues[atomToPrintable(atom)] = atomState.v;
               }
@@ -117,7 +108,7 @@ export default function useSyncSnapshotHistory() {
       }
       addToHistoryStack({ values, dependents }, displayValues);
     };
-    const cb = (
+    const cb = async (
       action: Parameters<Parameters<typeof userStore.subscribeStore>[0]>[0],
     ) => {
       const isWrite = action.type === 'set' || action.type === 'async-get';
@@ -126,7 +117,7 @@ export default function useSyncSnapshotHistory() {
         shouldRecordSnapshotHistory &&
         !store.get(isTimeTravelingAtom)
       ) {
-        collectValues();
+        await collectValues();
       }
     };
 

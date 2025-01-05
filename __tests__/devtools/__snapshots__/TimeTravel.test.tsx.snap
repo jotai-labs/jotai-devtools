@@ -574,6 +574,110 @@ exports[`DevTools - TimeTravel Snapshot details should display the full state in
 </div>
 `;
 
+exports[`DevTools - TimeTravel Snapshot details should not add another snapshot history entry when restoring an async atom 1`] = `
+[
+  <div
+    class="internal-jotai-devtools-json-tree-wrapper"
+    data-testid="json-tree-view-container"
+  >
+    <ul
+      style="border: 0px; padding: 0.625rem; margin: 0px; list-style: none; background-color: rgba(248, 249, 250, 0.65);"
+    >
+      <li
+        style="padding: 0px; margin: 0px;"
+      >
+        <ul
+          style="padding: 0px; margin: 0px; list-style: none;"
+        >
+          <li
+            style="position: relative; padding-top: 0.25em; margin-left: 0px; padding-left: 0px;"
+          >
+            <div
+              style="display: inline-block; padding-right: 0.5em; padding-left: 0px; cursor: pointer;"
+            >
+              <div
+                style="color: rgb(52, 58, 64); margin-left: 0px; transition: 150ms; transform: rotateZ(0deg); transform-origin: 45% 50%; position: relative; line-height: 1.1em; font-size: 0.75em; padding-left: 0.2em;"
+              >
+                ▶
+              </div>
+            </div>
+            <label
+              style="display: inline-block; color: rgb(52, 58, 64); margin: 0px; padding: 0px; cursor: pointer;"
+            >
+              <span>
+                asyncAtom
+                :
+              </span>
+            </label>
+            <span
+              style="padding-left: 0.5em; cursor: pointer; color: rgb(144, 146, 150); display: inline;"
+            >
+              { status: "fulfilled", value: 1 }
+            </span>
+            <ul
+              style="padding: 0px; margin: 0px; list-style: none; display: block;"
+            />
+          </li>
+        </ul>
+      </li>
+    </ul>
+  </div>,
+]
+`;
+
+exports[`DevTools - TimeTravel Snapshot details should not add another snapshot history entry when restoring an async atom 2`] = `
+[
+  <div
+    class="internal-jotai-devtools-json-tree-wrapper"
+    data-testid="json-tree-view-container"
+  >
+    <ul
+      style="border: 0px; padding: 0.625rem; margin: 0px; list-style: none; background-color: rgba(248, 249, 250, 0.65);"
+    >
+      <li
+        style="padding: 0px; margin: 0px;"
+      >
+        <ul
+          style="padding: 0px; margin: 0px; list-style: none;"
+        >
+          <li
+            style="padding-top: 0.25em; padding-right: 0px; margin-left: 0.875em; word-wrap: break-word; padding-left: 1.25em; text-indent: -0.5em; word-break: break-all;"
+          >
+            <label
+              style="display: inline-block; color: rgb(52, 58, 64); margin: 0px 0.5em 0px 0px;"
+            >
+              <span>
+                asyncAtom
+                :
+              </span>
+            </label>
+            <span>
+              <span
+                style="position: relative; padding: 2px 3px; border-radius: 3px; text-decoration: line-through; background-color: rgba(224, 49, 49, 0.65);"
+              >
+                null
+              </span>
+              <span
+                style="position: relative; padding: 2px 3px; border-radius: 3px; color: rgb(144, 146, 150);"
+              >
+                 =&gt; 
+              </span>
+              <span
+                style="position: relative; padding: 2px 3px; border-radius: 3px; background-color: rgba(47, 158, 68, 0.65);"
+              >
+                {
+  status: "pending"
+}
+              </span>
+            </span>
+          </li>
+        </ul>
+      </li>
+    </ul>
+  </div>,
+]
+`;
+
 exports[`DevTools - TimeTravel Snapshot list Search should display an error if no snapshots are found 1`] = `
 <div
   class="internal-jotai-devtools-time-travel-wrapper m_8bffd616 __m__-r2dv"

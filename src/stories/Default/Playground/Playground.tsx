@@ -1,4 +1,5 @@
 import * as React from 'react';
+import { useState } from 'react';
 import { Title } from '@mantine/core';
 import { atom, useAtom } from 'jotai';
 import {
@@ -9,6 +10,7 @@ import {
   unwrap,
 } from 'jotai/vanilla/utils';
 import { atomsWithQuery } from 'jotai-tanstack-query';
+import { ErrorBoundary } from 'react-error-boundary';
 import { interval } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { Async } from './Async';
@@ -153,14 +155,26 @@ export const Playground = () => {
   // useAtomValue(countAtomWithDefaultAtom);
   // useAtomValue(countAtomA);
   // useAtomValue(countAtomADupe);
+  const [resetKey, setResetKey] = useState(0);
+
   return (
     <>
       <Title>Playground</Title>
       <Counter />
       <FrozenCounter />
-      <React.Suspense fallback={<div>Loading...</div>}>
-        <Async />
-      </React.Suspense>
+      <ErrorBoundary
+        key={resetKey}
+        fallback={
+          <div>
+            Error{' '}
+            <button onClick={() => setResetKey((p) => p + 1)}>Reset</button>
+          </div>
+        }
+      >
+        <React.Suspense fallback={<div>Loading...</div>}>
+          <Async />
+        </React.Suspense>
+      </ErrorBoundary>
       {/* <UserData /> */}
       {/* <SomeComponentWithToggle /> */}
     </>

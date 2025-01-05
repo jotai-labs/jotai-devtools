@@ -98,7 +98,7 @@ const __composeV2StoreWithDevTools = (
 
     reduceCountOrRemoveRecentlySetAtom(args[0], () => {
       if (value instanceof Promise) {
-        value.then(() => {
+        value.finally(() => {
           // We wait for a tick to ensure that if there are any derived atoms then we wait for them to be flushed out as well
           Promise.resolve().then(() => {
             storeListeners.forEach((l) => l({ type: 'async-get' }));
