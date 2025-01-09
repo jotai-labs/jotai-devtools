@@ -576,7 +576,7 @@ exports[`DevTools - TimeTravel Snapshot details should display the full state in
 
 exports[`DevTools - TimeTravel Snapshot list Search should display an error if no snapshots are found 1`] = `
 <div
-  class="internal-jotai-devtools-time-travel-wrapper m_8bffd616 __m__-r2dv"
+  class="internal-jotai-devtools-time-travel-wrapper m_8bffd616 __m__-r2c3"
   data-testid="jotai-devtools-time-travel-panel-left-content"
   style="flex-direction: column; padding-top: 0rem; height: 100%;"
 >
@@ -788,7 +788,7 @@ exports[`DevTools - TimeTravel Snapshot list Search should display an error if n
 
 exports[`DevTools - TimeTravel Snapshot list Search should search for atoms correctly 1`] = `
 <div
-  class="internal-jotai-devtools-time-travel-wrapper m_8bffd616 __m__-r24d"
+  class="internal-jotai-devtools-time-travel-wrapper m_8bffd616 __m__-r22p"
   data-testid="jotai-devtools-time-travel-panel-left-content"
   style="flex-direction: column; padding-top: 0rem; height: 100%;"
 >
@@ -1005,15 +1005,6 @@ exports[`DevTools - TimeTravel Snapshot list Search should search for atoms corr
         </svg>
       </span>
     </button>
-    <div
-      aria-hidden="true"
-      class=""
-      style="box-sizing: border-box; opacity: 0; transition: opacity 200ms ease; display: none; height: 0px; overflow: hidden;"
-    >
-      <div
-        class="m_e17b862f"
-      />
-    </div>
   </div>
 </div>
 `;
@@ -1037,7 +1028,7 @@ exports[`DevTools - TimeTravel Snapshot list Snapshot history with actions shoul
     style="position: sticky; top: 0px; z-index: 1; width: 100%;"
   >
     <div
-      class="m_8bffd616 __m__-r317"
+      class="m_8bffd616 __m__-r2v1"
       style="align-items: center; justify-content: space-between;"
     >
       <div
@@ -1066,7 +1057,7 @@ exports[`DevTools - TimeTravel Snapshot list Snapshot history with actions shoul
         </div>
       </div>
       <div
-        class="m_8bffd616 __m__-r31h"
+        class="m_8bffd616 __m__-r2vb"
         style="align-items: center;"
       >
         <button
@@ -1280,7 +1271,7 @@ exports[`DevTools - TimeTravel Snapshot list Snapshot history with actions shoul
         style="flex-basis: 0px; flex-grow: 45; flex-shrink: 1; overflow: auto;"
       >
         <div
-          class="internal-jotai-devtools-time-travel-wrapper m_8bffd616 __m__-r34f"
+          class="internal-jotai-devtools-time-travel-wrapper m_8bffd616 __m__-r325"
           data-testid="jotai-devtools-time-travel-panel-left-content"
           style="flex-direction: column; padding-top: 0rem; height: 100%;"
         >
@@ -1497,15 +1488,6 @@ exports[`DevTools - TimeTravel Snapshot list Snapshot history with actions shoul
                 </svg>
               </span>
             </button>
-            <div
-              aria-hidden="true"
-              class=""
-              style="box-sizing: border-box; opacity: 0; transition: opacity 200ms ease; display: none; height: 0px; overflow: hidden;"
-            >
-              <div
-                class="m_e17b862f"
-              />
-            </div>
           </div>
         </div>
       </div>
@@ -1545,7 +1527,7 @@ exports[`DevTools - TimeTravel Snapshot list Snapshot history with actions shoul
         style="flex-basis: 0px; flex-grow: 55; flex-shrink: 1; overflow: auto;"
       >
         <div
-          class="m_8bffd616 __m__-r363"
+          class="m_8bffd616 __m__-r33p"
           style="flex-direction: column; padding-left: 0rem; height: 100%; position: relative;"
         >
           <div
