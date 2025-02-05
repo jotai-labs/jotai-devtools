@@ -163,7 +163,7 @@
     "webpack": "^5.97.1"
   },
   "peerDependencies": {
-    "react": ">=17.0.0"
+    "react": ">=18.0.0"
   },
   "dependencies": {
     "@mantine/code-highlight": "^7.16.2",
