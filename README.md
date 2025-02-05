@@ -193,11 +193,14 @@ and is replaced it with native CSS.
 2. Replace `@emotion/react` with `jotai-devtools/styles.css` in your code
 
 Note that this css file may get included in your production builds please import
-it conditionally if you want to avoid that.
+it conditionally if you want to avoid that, e.g.:
 
 ```diff
 import { DevTools } from 'jotai-devtools';
-+ import 'jotai-devtools/styles.css';
++ 
++ if (process.env.NODE_ENV === 'development') {
++     require('jotai-devtools/styles.css')
++ }
 ```
 
 ### Migrate Jotai to V2
